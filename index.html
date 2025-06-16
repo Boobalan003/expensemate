@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExpenseMate</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jsPDF + AutoTable -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="body-container">
+
+  <!-- Title -->
+  <div class="title-wrapper">
+    <h1 class="app-title">💸 ExpenseMate</h1>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-section">
+
+    <!-- Left Side: Expense Form -->
+    <div class="left-section">
+      <form id="expense-form" class="form-box">
+        <div>
+          <label class="input-label">Amount (₹)</label>
+          <input type="number" id="amount" required class="input-field" />
+        </div>
+        <div>
+          <label class="input-label">Category</label>
+          <input type="text" id="category" required class="input-field" />
+        </div>
+        <div>
+          <label class="input-label">Date</label>
+          <input type="date" id="date" required class="input-field" />
+        </div>
+        <div>
+          <label class="input-label">Note</label>
+          <input type="text" id="note" class="input-field" />
+        </div>
+        <button type="submit" class="submit-btn">
+          Add Expense
+        </button>
+      </form>
+    </div>
+
+    <!-- Right Side: Filters and Actions -->
+    <div class="right-section">
+      <div class="form-box">
+        <h3 class="filter-title">📅 Filter by Date</h3>
+        <div class="flex gap-2">
+          <input type="date" id="start-date" class="input-field" />
+          <input type="date" id="end-date" class="input-field" />
+        </div>
+        <button onclick="filterExpenses()" class="submit-btn mt-3">
+          Apply Filter
+        </button>
+      </div>
+
+      <div>
+        <label for="sort-select" class="input-label">Sort by:</label>
+        <select id="sort-select" class="input-field">
+          <option value="date-desc">📅 Date (Newest)</option>
+          <option value="date-asc">📅 Date (Oldest)</option>
+          <option value="amount-desc">💰 Amount (High to Low)</option>
+          <option value="amount-asc">💸 Amount (Low to High)</option>
+          <option value="category-asc">📁 Category (A–Z)</option>
+        </select>
+      </div>
+
+      <div class="export-buttons">
+        <button onclick="exportToCSV()" class="export-btn csv-btn">
+          Export to CSV
+        </button>
+        <button onclick="exportToPDF()" class="export-btn pdf-btn">
+          Export to PDF
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Expense List and Chart -->
+  <div class="summary-section">
+    <h2 class="section-title">Expense Tracker</h2>
+    <div id="expense-list"></div>
+
+    <div id="total-summary" class="summary-box">
+      <h2>Total Spent:</h2>
+      <p id="total-amount" class="highlight-text">₹0</p>
+    </div>
+
+    <div class="summary-box">
+      <h2>Monthly & Yearly Summary</h2>
+      <p>🗓️ This Month: <span id="monthly-total" class="highlight-text">₹0.00</span></p>
+      <p>📅 This Year: <span id="yearly-total" class="highlight-text">₹0.00</span></p>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <h2 class="section-title">Spending by Category</h2>
+    <canvas id="categoryChart" height="200"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

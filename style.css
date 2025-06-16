@@ -1,0 +1,163 @@
+/* General Layout */
+.body-container {
+  background-color: #111827;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  font-family: sans-serif;
+}
+
+/* Title */
+.title-wrapper {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.app-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #60a5fa;
+}
+
+/* Main Layout */
+.main-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1280px;
+}
+
+@media (min-width: 1024px) {
+  .main-section {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.left-section, .right-section {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .left-section, .right-section {
+    width: 48%;
+  }
+}
+
+/* Form & Filters */
+.form-box {
+  background-color: #1f2937;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background-color: #374151;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.submit-btn {
+  background-color: #3b82f6;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #2563eb;
+}
+
+.filter-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.export-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.export-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  color: white;
+}
+
+.csv-btn {
+  background-color: #10b981;
+}
+
+.csv-btn:hover {
+  background-color: #059669;
+}
+
+.pdf-btn {
+  background-color: #8b5cf6;
+}
+
+.pdf-btn:hover {
+  background-color: #7c3aed;
+}
+
+/* Summary & Chart */
+.summary-section {
+  width: 100%;
+  max-width: 1024px;
+  margin-top: 2rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.summary-box {
+  background-color: #1f2937;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.highlight-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #34d399;
+}
+
+.chart-box {
+  width: 100%;
+  max-width: 768px;
+  background-color: #1f2937;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin-top: 2rem;
+}
