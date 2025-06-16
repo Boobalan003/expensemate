@@ -20,12 +20,22 @@ updateChart();
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
+  const amount = parseFloat(amountInput.value);
+  const category = categoryInput.value;
+  const date = dateInput.value;
+  const note = noteInput.value || "No note";
+
+  if (!amount || !category || !date) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
   const expense = {
     id: editingId || Date.now(),
-    amount: parseFloat(amountInput.value),
-    category: categoryInput.value,
-    date: dateInput.value,
-    note: noteInput.value || "No note"
+    amount,
+    category,
+    date,
+    note
   };
 
   if (editingId) {
@@ -78,7 +88,7 @@ function editExpense(id) {
   dateInput.value = exp.date;
   noteInput.value = exp.note;
 
-  editingId = id; // set global edit ID
+  editingId = id;
 }
 
 // Delete an expense
@@ -177,7 +187,7 @@ function exportToPDF() {
       fontSize: 10
     },
     headStyles: {
-      fillColor: [55, 65, 81] // Tailwind Gray-800
+      fillColor: [55, 65, 81]
     }
   });
 
@@ -269,4 +279,5 @@ function filterExpenses() {
   renderExpenses(filtered);
   updateTotal(filtered);
   updateChart(filtered);
-} 
+}
+
