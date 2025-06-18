@@ -28,7 +28,6 @@ form.addEventListener('submit', (e) => {
     note: noteInput.value.trim() || "No note"
   };
 
-  // If editing, remove the old entry before saving the new
   if (editingId) {
     expenses = expenses.filter(exp => exp.id !== editingId);
     editingId = null;
@@ -43,7 +42,6 @@ form.addEventListener('submit', (e) => {
   form.reset();
 });
 
-// 📝 Show expenses (all or filtered)
 function renderExpenses(list = expenses) {
   expenseList.innerHTML = '';
 
@@ -69,7 +67,6 @@ function renderExpenses(list = expenses) {
   });
 }
 
-// ✏️ Load expense data for editing
 function editExpense(id) {
   const exp = expenses.find(e => e.id === id);
   if (!exp) return;
@@ -82,7 +79,6 @@ function editExpense(id) {
   editingId = id;
 }
 
-// 🗑️ Delete expense by ID
 function deleteExpense(id) {
   expenses = expenses.filter(exp => exp.id !== id);
   saveExpenses();
@@ -92,13 +88,11 @@ function deleteExpense(id) {
   updateChart();
 }
 
-// 💰 Update total amount shown
 function updateTotal(list = expenses) {
   const total = list.reduce((sum, exp) => sum + exp.amount, 0);
   totalAmount.textContent = `₹${total.toFixed(2)}`;
 }
 
-// 📅 Show monthly and yearly summaries
 function updateSummary() {
   const now = new Date();
   const thisMonth = now.getMonth();
@@ -121,12 +115,10 @@ function updateSummary() {
   document.getElementById('yearly-total').textContent = `₹${yearlyTotal.toFixed(2)}`;
 }
 
-// 💾 Save expenses to local storage
 function saveExpenses() {
   localStorage.setItem('expenses', JSON.stringify(expenses));
 }
 
-// 📤 Export data to CSV
 function exportToCSV() {
   if (expenses.length === 0) {
     alert('No data to export.');
@@ -151,7 +143,6 @@ function exportToCSV() {
   document.body.removeChild(link);
 }
 
-// 📄 Export data to PDF
 function exportToPDF() {
   if (expenses.length === 0) {
     alert('No data to export.');
@@ -175,17 +166,18 @@ function exportToPDF() {
     body: rows,
     startY: 20,
     styles: { fontSize: 10 },
-    headStyles: { fillColor: [55, 65, 81] } // Tailwind Gray-800
+    headStyles: { fillColor: [55, 65, 81] }
   });
 
   doc.save('expenses.pdf');
 }
 
-// 📊 Build category pie chart
 let chart;
 function updateChart(list = expenses) {
-  const categoryTotals = {};
+  const canvas = document.getElementById('categoryChart');
+  if (!canvas) return;
 
+  const categoryTotals = {};
   list.forEach(exp => {
     categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount;
   });
@@ -200,7 +192,7 @@ function updateChart(list = expenses) {
 
   if (chart) chart.destroy();
 
-  const ctx = document.getElementById('categoryChart').getContext('2d');
+  const ctx = canvas.getContext('2d');
   chart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -222,7 +214,6 @@ function updateChart(list = expenses) {
   });
 }
 
-// 🔽 Sorting dropdown logic
 document.getElementById('sort-select').addEventListener('change', (e) => {
   const sortBy = e.target.value;
   let sorted = [...expenses];
@@ -250,7 +241,6 @@ document.getElementById('sort-select').addEventListener('change', (e) => {
   updateChart(sorted);
 });
 
-// 📅 Date range filter
 function filterExpenses() {
   const start = new Date(document.getElementById('start-date').value);
   const end = new Date(document.getElementById('end-date').value);
