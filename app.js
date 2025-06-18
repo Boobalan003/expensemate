@@ -9,6 +9,7 @@ const totalAmount = document.getElementById('total-amount');
 
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 let editingId = null;
+let chart;
 
 // 🌟 Initial Setup
 renderExpenses();     // Show saved expenses on load
@@ -172,7 +173,6 @@ function exportToPDF() {
   doc.save('expenses.pdf');
 }
 
-let chart;
 function updateChart(list = expenses) {
   const canvas = document.getElementById('categoryChart');
   if (!canvas) return;
