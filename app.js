@@ -19,9 +19,6 @@ updateChart();        // Build the pie chart
 
 // ✅ When the form is submitted
 form.addEventListener('submit', (e) => {
-  console.log("Form submitted");
-console.log(amountInput.value, categoryInput.value, dateInput.value);
-
   e.preventDefault();
 
   const newExpense = {
