@@ -1,4 +1,4 @@
-// Select elements
+// 🌟 Element Selections
 const form = document.getElementById('expense-form');
 const amountInput = document.getElementById('amount');
 const categoryInput = document.getElementById('category');
@@ -10,30 +10,31 @@ const totalAmount = document.getElementById('total-amount');
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 let editingId = null;
 
-// Initial render
-renderExpenses();
-updateTotal();
-updateSummary();
-updateChart();
+// 🌟 Initial Setup
+renderExpenses();     // Show saved expenses on load
+updateTotal();        // Show total spent
+updateSummary();      // Show monthly and yearly summaries
+updateChart();        // Build the pie chart
 
-// Handle form submission
+// ✅ When the form is submitted
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const expense = {
+  const newExpense = {
     id: editingId || Date.now(),
     amount: parseFloat(amountInput.value),
-    category: categoryInput.value,
+    category: categoryInput.value.trim(),
     date: dateInput.value,
-    note: noteInput.value || "No note"
+    note: noteInput.value.trim() || "No note"
   };
 
+  // If editing, remove the old entry before saving the new
   if (editingId) {
-    expenses = expenses.filter(e => e.id !== editingId);
+    expenses = expenses.filter(exp => exp.id !== editingId);
     editingId = null;
   }
 
-  expenses.push(expense);
+  expenses.push(newExpense);
   saveExpenses();
   renderExpenses();
   updateTotal();
@@ -42,7 +43,7 @@ form.addEventListener('submit', (e) => {
   form.reset();
 });
 
-// Render all or filtered expenses
+// 📝 Show expenses (all or filtered)
 function renderExpenses(list = expenses) {
   expenseList.innerHTML = '';
 
@@ -68,7 +69,7 @@ function renderExpenses(list = expenses) {
   });
 }
 
-// Edit an expense
+// ✏️ Load expense data for editing
 function editExpense(id) {
   const exp = expenses.find(e => e.id === id);
   if (!exp) return;
@@ -78,10 +79,10 @@ function editExpense(id) {
   dateInput.value = exp.date;
   noteInput.value = exp.note;
 
-  editingId = id; // set global edit ID
+  editingId = id;
 }
 
-// Delete an expense
+// 🗑️ Delete expense by ID
 function deleteExpense(id) {
   expenses = expenses.filter(exp => exp.id !== id);
   saveExpenses();
@@ -91,26 +92,26 @@ function deleteExpense(id) {
   updateChart();
 }
 
-// Update total amount
+// 💰 Update total amount shown
 function updateTotal(list = expenses) {
   const total = list.reduce((sum, exp) => sum + exp.amount, 0);
   totalAmount.textContent = `₹${total.toFixed(2)}`;
 }
 
-// Update monthly and yearly summaries
+// 📅 Show monthly and yearly summaries
 function updateSummary() {
   const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
+  const thisMonth = now.getMonth();
+  const thisYear = now.getFullYear();
 
   let monthlyTotal = 0;
   let yearlyTotal = 0;
 
   expenses.forEach(exp => {
     const expDate = new Date(exp.date);
-    if (expDate.getFullYear() === currentYear) {
+    if (expDate.getFullYear() === thisYear) {
       yearlyTotal += exp.amount;
-      if (expDate.getMonth() === currentMonth) {
+      if (expDate.getMonth() === thisMonth) {
         monthlyTotal += exp.amount;
       }
     }
@@ -120,12 +121,12 @@ function updateSummary() {
   document.getElementById('yearly-total').textContent = `₹${yearlyTotal.toFixed(2)}`;
 }
 
-// Save to localStorage
+// 💾 Save expenses to local storage
 function saveExpenses() {
   localStorage.setItem('expenses', JSON.stringify(expenses));
 }
 
-// Export to CSV
+// 📤 Export data to CSV
 function exportToCSV() {
   if (expenses.length === 0) {
     alert('No data to export.');
@@ -135,13 +136,13 @@ function exportToCSV() {
   const headers = ['Amount', 'Category', 'Date', 'Note'];
   const rows = expenses.map(exp => [exp.amount, exp.category, exp.date, exp.note || '']);
 
-  let csvContent = 'data:text/csv;charset=utf-8,';
-  csvContent += headers.join(',') + '\n';
+  let csv = 'data:text/csv;charset=utf-8,';
+  csv += headers.join(',') + '\n';
   rows.forEach(row => {
-    csvContent += row.join(',') + '\n';
+    csv += row.join(',') + '\n';
   });
 
-  const encodedUri = encodeURI(csvContent);
+  const encodedUri = encodeURI(csv);
   const link = document.createElement('a');
   link.setAttribute('href', encodedUri);
   link.setAttribute('download', 'expenses.csv');
@@ -150,7 +151,7 @@ function exportToCSV() {
   document.body.removeChild(link);
 }
 
-// Export to PDF
+// 📄 Export data to PDF
 function exportToPDF() {
   if (expenses.length === 0) {
     alert('No data to export.');
@@ -173,18 +174,14 @@ function exportToPDF() {
     head: headers,
     body: rows,
     startY: 20,
-    styles: {
-      fontSize: 10
-    },
-    headStyles: {
-      fillColor: [55, 65, 81] // Tailwind Gray-800
-    }
+    styles: { fontSize: 10 },
+    headStyles: { fillColor: [55, 65, 81] } // Tailwind Gray-800
   });
 
   doc.save('expenses.pdf');
 }
 
-// Chart.js logic
+// 📊 Build category pie chart
 let chart;
 function updateChart(list = expenses) {
   const categoryTotals = {};
@@ -218,16 +215,14 @@ function updateChart(list = expenses) {
     options: {
       plugins: {
         legend: {
-          labels: {
-            color: '#fff'
-          }
+          labels: { color: '#fff' }
         }
       }
     }
   });
 }
 
-// Sort handler
+// 🔽 Sorting dropdown logic
 document.getElementById('sort-select').addEventListener('change', (e) => {
   const sortBy = e.target.value;
   let sorted = [...expenses];
@@ -255,7 +250,7 @@ document.getElementById('sort-select').addEventListener('change', (e) => {
   updateChart(sorted);
 });
 
-// Date range filter
+// 📅 Date range filter
 function filterExpenses() {
   const start = new Date(document.getElementById('start-date').value);
   const end = new Date(document.getElementById('end-date').value);
@@ -269,4 +264,4 @@ function filterExpenses() {
   renderExpenses(filtered);
   updateTotal(filtered);
   updateChart(filtered);
-} 
+}
